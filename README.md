@@ -24,12 +24,12 @@
 |7| /api/v1/expect?id=123 | get the expect of id | |
 |8| /api/v1/ids?id=123 | get the ids of id | |
 |9| /api/v1/request?id=123 | get the request of id | |
-|10| /api/v1/response?id=123 / get the response of id | |
-|11| /api/v1/sqlinfo?id=123 / get the sqlinfo of id | |
-|12| /api/v1/sqlinfo/checklist?id=123 / get the sqlinfo checklist of id | |
-|13| /api/v1/sqlinfo/config?id=123 / get the sqlinfo config of id | |
-|14| /api/v1/sqlinfo/script?id=123 / get the sqlinfo script of id | |
-|15| /api/v1/case/detail?id=123 / get the detail of case id | |
+|10| /api/v1/response?id=123 | get the response of id | |
+|11| /api/v1/sqlinfo?id=123 | get the sqlinfo of id | |
+|12| /api/v1/sqlinfo/checklist?id=123 | get the sqlinfo checklist of id | |
+|13| /api/v1/sqlinfo/config?id=123 | get the sqlinfo config of id | |
+|14| /api/v1/sqlinfo/script?id=123 | get the sqlinfo script of id | |
+|15| /api/v1/case/detail?id=123 | get the detail of case id | |
 
 
 ## Manager of HAF based on vue & python flask
