@@ -6,7 +6,7 @@ PACKAGE_NAME = "hafweb"
 
 VERSION_MAIN = 0
 VERSION_SUB = 0
-VERSION_FIX = 1
+VERSION_FIX = 2
 
 
 requires = [
@@ -19,7 +19,7 @@ requires = [
         ]
 
 
-with open('ReadMe.md', encoding='utf8') as f:
+with open('README.md', encoding='utf8') as f:
     long_description = f.read()
 
 
