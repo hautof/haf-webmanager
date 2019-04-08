@@ -8,6 +8,7 @@ install:
   - pip install flask
   - pip install flask_restful
   - pip install requests
+  - pip install sqlalchemy
 script:
   - # or py.test for Python versions 3.5 and below
   - python setup.py bdist_wheel

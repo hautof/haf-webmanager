@@ -11,7 +11,8 @@ requires = [
     'flask',
     'flask_restful',
     'jinja2',
-    'setuptools'
+    'setuptools',
+    'sqlalchemy'
         ]
 
 

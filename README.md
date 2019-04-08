@@ -2,14 +2,15 @@
 
 > haf web manager
 
-> not the plugin of haf: hafweb
-
+[![Build Status](https://travis-ci.org/hautof/haf-webmanager.svg?branch=master)](https://travis-ci.org/hautof/haf-webmanager)
+![PyPI](https://img.shields.io/pypi/v/hafweb.svg)
+![GitHub release](https://img.shields.io/github/release/hautof/haf-webmanager.svg)
 
 ## haf
 
 > https://github.com/tsbxmw/haf
 
-## now have version 0.0.1 to support mysql as an api server
+## now have version 0.0.3 to support mysql as an api server
 
 > apis
 
