@@ -1,0 +1,13 @@
+language: python
+python:
+  - "3.6"
+# command to install dependencies
+install:
+  - pip install haf
+  - pip install setuptools
+  - pip install flask
+  - pip install flask_restful
+  - pip install requests
+script:
+  - # or py.test for Python versions 3.5 and below
+  - python setup.py bdist_wheel
