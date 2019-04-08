@@ -12,3 +12,9 @@ DB_MYSQL_PASSWORD = "testzhan123"
 DB_MYSQL_NAME = "haf_publish"
 
 Base = declarative_base()
+
+MAIN_VERSION = 0
+SUB_VERSION = 0
+FIX_VERSION = 3
+
+VERSION = f"{MAIN_VERSION}.{SUB_VERSION}.{FIX_VERSION}"

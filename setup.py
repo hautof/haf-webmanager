@@ -1,12 +1,8 @@
 import setuptools, os
 from setuptools import setup
+from hafweb.config import *
 
 PACKAGE_NAME = "hafweb"
-
-
-VERSION_MAIN = 0
-VERSION_SUB = 0
-VERSION_FIX = 2
 
 
 requires = [
@@ -34,7 +30,7 @@ def package_files(directory):
 
 setup(
     name = PACKAGE_NAME,
-    version = f"{VERSION_MAIN}.{VERSION_SUB}.{VERSION_FIX}",
+    version = f"{VERSION}",
     author = 'wei.meng',
     author_email = 'mengwei1101@hotmail.com',    
     long_description = long_description,
