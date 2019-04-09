@@ -80,9 +80,10 @@ class ApiCaseResponse(Base):
     id = Column(Integer, primary_key=True)
     header = Column(String)
     body = Column(String)
+    code = Column(Integer)
 
     def __repr__(self):
-        attr_list = ["id", "header", "body"]
+        attr_list = ["id", "header", "body", "code"]
         rev = {}
         for attr in attr_list:
             rev[attr] = getattr(self, attr)

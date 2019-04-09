@@ -19,4 +19,7 @@ def main():
     args = arg_program.parse_args()
     Controller.bind_all()
     ControllerApi.bind_all()
-    app.run(debug=False, port=WEB_SERVER_PORT if args.port==8081 else args.port)
+    if hasattr(args, 'port'):
+        app.run(debug=False, port=WEB_SERVER_PORT if args.port==8081 else args.port)
+    else:
+        app.run(debug=False, port=WEB_SERVER_PORT)

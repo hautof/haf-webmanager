@@ -163,7 +163,7 @@
                     {% block mains %}
                     {% for key in mains.keys() %}
                     {% set main = mains.get(key) %}
-                    <ul><h3><a href="/main?test_name={{key}}">{{key}}</a></h3>
+                    <ul><h3><a onclick="/main?test_name={{key}}">{{key}}</a></h3>
                         <li> <a onclick="showElement('{{key}}-url')">show details</a>
                             <div id="echart-{{key}}-map" style="height:200px;width:100%">
                                 <script type="text/javascript">

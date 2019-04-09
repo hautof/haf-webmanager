@@ -14,3 +14,26 @@ def index() -> str:
 @app.route("/index")
 def main_page() -> str:
     return GeneratorHtml.g_main()
+
+
+@app.route("/today")
+def main_page_today() -> str:
+    return GeneratorHtml.g_main_today()
+
+
+@app.route("/test", methods=['GET'])
+def test_page() -> str:
+    if request.method == "POST":
+        test_id = request.form.get("test_id")
+    else:
+        test_id = request.args.get("test_id")
+    return GeneratorHtml.g_test(test_id)
+
+
+@app.route("/main", methods=['GET'])
+def main_one_page() -> str:
+    if request.method == "POST":
+        test_name = request.form.get("test_name")
+    else:
+        test_name = request.args.get("test_name")
+    return GeneratorHtml.g_main_one(test_name)

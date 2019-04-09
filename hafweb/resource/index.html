@@ -1,14 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    {% block head %}
-    <meta charset="UTF-8">
-    <title>hafweb</title>
-    {% endblock %}
-</head>
-<body>
-<pre>
-    {{banner}}
-</pre>
-</body>
+ <head></head>
+ <body>
+   {% block head %}
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+  <style type="text/css">
+        {% include "css/bootstrap.min.css" %}
+    </style>
+  <meta charset="UTF-8" />
+  <title>hafweb</title> {% endblock %}
+  <div style="width:90%;margin:0 auto">
+   <div class="row clearfix">
+    <div class="col-md-12 column">
+     <div class="jumbotron well">
+      <div>
+       <pre>{{banner}}</pre>
+      </div>
+      <br />
+       <h2> HTML URLS </h2>
+      <div align="center">
+       <table class="table">
+        <thead style="width:80%">
+         <tr>
+          <th>ID</th>
+          <th>NAME</th>
+          <th>PATH</th>
+          <th>DESCRIPTION</th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td>1</td>
+          <td>/</td>
+          <td><a href="/">/</a></td>
+          <td>this page</td>
+         </tr>
+         <tr>
+          <td>2</td>
+          <td>/index</td>
+          <td><a href="/index">/index</a></td>
+          <td>show all test results</td>
+         </tr>
+         <tr>
+          <td>3</td>
+          <td>/test?test_id=1</td>
+          <td><a href="/test?test_id=1">/test?test_id=1</a></td>
+          <td>show id==1 test infos</td>
+         </tr>
+         <tr>
+          <td>4</td>
+          <td>/main?test_name=haf</td>
+          <td><a href="/main?test_name=haf">/main?test_name=haf</a></td>
+          <td>get haf's all tests</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+       <h2> API URLS </h2>
+      <div align="left">
+          <pre>
+    id	url	                                    description	                    others
+    1   /api/v1/main                            get all tests in the db
+    2   /api/v1/main/today	                    get all today test
+    3   /api/v1/main?date_time=2019-04-08	    get the 20190408's tests
+    4	/api/v1/suite?main_id=123	            get the main_id's suite
+    5	/api/v1/summary?suite_id=123	        get the summary of id
+    6	/api/v1/case?suite_id=123	            get the case of suite
+    7	/api/v1/expect?id=123	                get the expect of id
+    8	/api/v1/ids?id=123	                    get the ids of id
+    9	/api/v1/request?id=123	                get the request of id
+    10	/api/v1/response?id=123	                get the response of id
+    11	/api/v1/sqlinfo?id=123	                get the sqlinfo of id
+    12	/api/v1/sqlinfo/checklist?id=123	    get the sqlinfo checklist of id
+    13	/api/v1/sqlinfo/config?id=123	        get the sqlinfo config of id
+    14	/api/v1/sqlinfo/script?id=123	        get the sqlinfo script of id
+    15	/api/v1/case/detail?id=123	            get the detail of case id
+          </pre>>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </body>
 </html>

@@ -10,13 +10,25 @@ from hafweb.error import *
 def get_main_all_api() -> str:
     if request.method == "POST":
         date_time = request.form.get("date_time")
+        test_name = request.form.get("test_name")
     else:
         date_time = request.args.get("date_time")
+        test_name = request.args.get("test_name")
     if date_time is not None:
         mains = Controller.get_main_by_date(date_time)
     else:
         mains = Controller.get_main_all()
-    return GeneratorApi.generate_api("get_main_all_api", mains, 0)
+    if test_name is not None:
+        temp = []
+        for main in mains:
+            *name, y, m, d, t = main.name.split("-")
+            name = "-".join(name)
+            print(name)
+            if name == test_name:
+                temp.append(main)
+        mains = temp
+
+    return GeneratorApi.generate_api("get_main_all_api", mains)
 
 
 @app.route("/api/v1/main/today", methods=['GET', 'POST'])

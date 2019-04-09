@@ -25,6 +25,24 @@ class Controller(object):
             return temp
 
     @classmethod
+    def get_main_by_test_name(cls, test_name):
+        rev = []
+        temp = Controller.get_main_all()
+        for main in temp:
+            *name, y, m, d, t = main.name.split("-")
+            name = "-".join(name)
+            date_time = f"{y}-{m}-{d}-{t}"
+            if name == test_name:
+                rev.append(main)
+        return rev
+
+    @classmethod
+    def get_main_by_test_id(cls, test_id):
+        with session_close() as session:
+            temp = session.query(Main).filter(Main.id==test_id).all()
+            return temp
+
+    @classmethod
     def get_main_today(cls):
         with session_close() as session:
             today= datetime.today().date()
