@@ -28,6 +28,16 @@ def package_files(directory):
             paths.append(os.path.join('..', path, filename))
     return paths
 
+package_extras = []
+
+
+package_extras.extend(package_files('{}/controller'.format(PACKAGE_NAME)))
+package_extras.extend(package_files('{}/model'.format(PACKAGE_NAME)))
+package_extras.extend(package_files('{}/resource'.format(PACKAGE_NAME)))
+package_extras.extend(package_files('{}/resource/css'.format(PACKAGE_NAME)))
+package_extras.extend(package_files('{}/resource/js'.format(PACKAGE_NAME)))
+package_extras.extend(package_files('{}/route'.format(PACKAGE_NAME)))
+
 
 setup(
     name = PACKAGE_NAME,
@@ -38,6 +48,7 @@ setup(
     long_description_content_type='text/markdown',
     url='http://github.com/hautof/haf-plugin-webserver',
     packages=setuptools.find_packages(),
+    package_data = {"": package_extras},
     python_requires='>=3.6',
     install_requires=requires,
     platforms='Posix; MacOS X; Windows',
