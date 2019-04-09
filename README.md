@@ -33,6 +33,13 @@
 |15| /api/v1/case/detail?id=123 | get the detail of case id | |
 
 
+![](https://raw.githubusercontent.com/hautof/haf-webmanager/master/doc/index.png)
+
+![](https://raw.githubusercontent.com/hautof/haf-webmanager/master/doc/main.png)
+
+![](https://raw.githubusercontent.com/hautof/haf-webmanager/master/doc/test.png)
+
+
 ## Manager of HAF based on vue & python flask
 
 - create/edit case
