@@ -12,11 +12,11 @@ class Controller(object):
     @classmethod
     def bind_all(cls):
         main = Main()
-        main.metadata.bind = engine
+        main.metadata.bind = engine_maker.engine
         suite = Suite()
-        suite.metadata.bind = engine
+        suite.metadata.bind = engine_maker.engine
         summary = Summary()
-        summary.metadata.bind = engine
+        summary.metadata.bind = engine_maker.engine
 
     @classmethod
     def get_main_all(cls):

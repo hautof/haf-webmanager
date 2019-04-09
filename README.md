@@ -10,7 +10,14 @@
 
 > https://github.com/tsbxmw/haf
 
-## now have version 0.0.3 to support mysql as an api server
+
+## how to run
+
+```
+    python3 -m hafweb run -ss=root:root@localhost:3306/haf_publish
+```
+
+## now support mysql as an api server
 
 > apis
 

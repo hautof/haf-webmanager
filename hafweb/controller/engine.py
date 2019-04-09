@@ -3,16 +3,28 @@ from sqlalchemy import *
 from hafweb.config import *
 import functools
 from contextlib import contextmanager
+from haf.common.sigleton import *
+
+class EngineMaker(metaclass=SingletonType):
+    engine = None
+    maker = None
+
+    def __init__(self):
+        super().__init__()
+
+    def bind_sql_server(self, args):
+        self.engine = create_engine(
+            f"mysql+pymysql://{args.sql_server}")
+        self.maker = sessionmaker(bind=self.engine)
 
 
-engine = create_engine(
-    f"mysql+pymysql://{DB_MYSQL_USER}:{DB_MYSQL_PASSWORD}@{DB_MYSQL_HOST}:{DB_MYSQL_PORT}/{DB_MYSQL_NAME}")
-maker = sessionmaker(bind=engine)
+engine_maker = EngineMaker()
+
 
 @contextmanager
 def session_close():
     try:
-        session = maker()
+        session = engine_maker.maker()
         yield session
     finally:
         session.close()

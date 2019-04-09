@@ -16,7 +16,10 @@ def main():
                                                          help="run web, using `python -m hafweb run` to run the web server ")
     sub_run_arg_program.add_argument("--port", "-p", dest="port", type=int, default="8081",
                                      help="the port of web server")
+    sub_run_arg_program.add_argument("--sql-server", "-ss", dest="sql_server", type=str, default="", required=True,
+                                     help="db sql server : user:pass@host:port/db")
     args = arg_program.parse_args()
+    engine_maker.bind_sql_server(args)
     Controller.bind_all()
     ControllerApi.bind_all()
     if hasattr(args, 'port'):

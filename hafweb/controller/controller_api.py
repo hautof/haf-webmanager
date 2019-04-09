@@ -12,25 +12,25 @@ class ControllerApi(object):
     @classmethod
     def bind_all(cls):
         apicase = ApiCase()
-        apicase.metadata.bind = engine
+        apicase.metadata.bind = engine_maker.engine
         case_expect = ApiCaseExpect()
-        case_expect.metadata.bind = engine
+        case_expect.metadata.bind = engine_maker.engine
         case_ids = ApiCaseIds()
-        case_ids.metadata.bind = engine
+        case_ids.metadata.bind = engine_maker.engine
         case_request = ApiCaseRequest()
-        case_request.metadata.bind = engine
+        case_request.metadata.bind = engine_maker.engine
         case_response = ApiCaseResponse()
-        case_response.metadata.bind = engine
+        case_response.metadata.bind = engine_maker.engine
         case_sqlinfo = ApiCaseSqlinfo()
-        case_sqlinfo.metadata.bind = engine
+        case_sqlinfo.metadata.bind = engine_maker.engine
         case_sqlinfo_checklsit = ApiCaseSqlinfoChecklist()
-        case_sqlinfo_checklsit.metadata.bind = engine
+        case_sqlinfo_checklsit.metadata.bind = engine_maker.engine
         case_sqlinfo_config = ApiCaseSqlinfoConfig()
-        case_sqlinfo_config.metadata.bind = engine
+        case_sqlinfo_config.metadata.bind = engine_maker.engine
         case_sqlinfo_script = ApiCaseSqlinfoScript()
-        case_sqlinfo_script.metadata.bind = engine
+        case_sqlinfo_script.metadata.bind = engine_maker.engine
         case_detail = ApiDetail()
-        case_detail.metadata.bind = engine
+        case_detail.metadata.bind = engine_maker.engine
 
     @classmethod
     def get_case_all(cls):
