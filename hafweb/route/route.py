@@ -47,3 +47,4 @@ def main_one_page() -> str:
     else:
         test_name = request.args.get("test_name")
     return GeneratorHtml.g_main_one(test_name)
+

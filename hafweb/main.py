@@ -26,3 +26,7 @@ def main():
         app.run(host='0.0.0.0', debug=False, port=WEB_SERVER_PORT if args.port==8081 else args.port)
     else:
         app.run(host='0.0.0.0', debug=False, port=WEB_SERVER_PORT)
+
+
+if __name__ == "__main__":
+    main()
