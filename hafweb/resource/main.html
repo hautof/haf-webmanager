@@ -308,40 +308,6 @@
     </div>
     </div>
 
-    <div class="row clearfix">
-        <div class="col-md-12 column">
-            <div class="jumbotron well">
-                <table class="table">
-                        <thead>
-                            <tr >
-                                <th>Test Name</th>
-                                <th>Begin Time</th>
-                                <th>End Time</th>
-                                <th>Pass</th>
-                                <th>Fail</th>
-                                <th>Error</th>
-                                <th>Skip</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% block main %}
-                            {% for m in main %}
-                            <tr >
-                                <td><li><a href="./test?test_id={{m.id}}">{{m.name}}</a></li></td>
-                                <td>{{m.begin_time}}</td>
-                                <td>{{m.end_time}}</td>
-                                <td><a onclick="showElement('all_pass')">{{m.passed}}</a></td>
-                                <td><a onclick="showElement('all_fail')">{{m.failed}}</a></td>
-                                <td><a onclick="showElement('all_error')">{{m.error}}</a></td>
-                                <td><a onclick="showElement('all_skip')">{{m.skip}}</a></td>
-                            </tr>
-                            {% endfor %}
-                            {% endblock %}
-                        </tbody>
-                </table>
-            </div>
-    </div>
-    </div>
 </div>
 </body>
 </html>

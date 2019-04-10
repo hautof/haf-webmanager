@@ -13,12 +13,22 @@ def index() -> str:
 
 @app.route("/index")
 def main_page() -> str:
-    return GeneratorHtml.g_main()
+    test_filter = ""
+    if request.method == "POST":
+        test_filter = request.form.get("test_filter")
+    else:
+        test_filter = request.args.get("test_filter")
+    return GeneratorHtml.g_main(test_filter.split(',') if test_filter else [])
 
 
 @app.route("/today")
 def main_page_today() -> str:
-    return GeneratorHtml.g_main_today()
+    test_filter = ""
+    if request.method == "POST":
+        test_filter = request.form.get("test_filter")
+    else:
+        test_filter = request.args.get("test_filter")
+    return GeneratorHtml.g_main_today(test_filter.split(',') if test_filter else [])
 
 
 @app.route("/test", methods=['GET'])

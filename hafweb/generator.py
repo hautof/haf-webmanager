@@ -27,19 +27,20 @@ class GeneratorHtml(object):
         return index.render(banner=banner)
 
     @classmethod
-    def split_main(cls, mains):
+    def split_main(cls, mains, filter=[]):
         m = {}
         for main in mains:
             *names, year, month, day, time = main.name.split("-")
             name = '-'.join(names)
             date_time = f"{year}-{month}-{day}-{time}"
-            if name not in m.keys():
-                m[name] = {}
-            m[name][date_time] = main
+            if len(filter) == 0 or name in filter:
+                if name not in m.keys():
+                    m[name] = {}
+                m[name][date_time] = main
         return m
 
     @classmethod
-    def g_main(cls) -> str:
+    def g_main(cls, test_filter) -> str:
         template_name = "main.html"
         index = GeneratorHtml.get_template(template_name)
         main_today = Controller.get_main_all()
@@ -52,11 +53,11 @@ class GeneratorHtml(object):
             main_all["error"] += m.error
             main_all["skip"] += m.skip
         main_all["all"] = main_all["passed"] + main_all["failed"] + main_all["error"] + main_all["skip"]
-        mains = GeneratorHtml.split_main(main_today)
+        mains = GeneratorHtml.split_main(main_today, test_filter)
         return index.render(today=datetime.today().date(),main=main_today, suites=suites, all=main_all, hafversion=PLATFORM_VERSION, testname="ALL", mains=mains)
 
     @classmethod
-    def g_main_today(cls) -> str:
+    def g_main_today(cls, test_filter) -> str:
         template_name = "main.html"
         index = GeneratorHtml.get_template(template_name)
         main_today = Controller.get_main_today()
@@ -69,7 +70,7 @@ class GeneratorHtml(object):
             main_all["error"] += m.error
             main_all["skip"] += m.skip
         main_all["all"] = main_all["passed"] + main_all["failed"] + main_all["error"] + main_all["skip"]
-        mains = GeneratorHtml.split_main(main_today)
+        mains = GeneratorHtml.split_main(main_today, test_filter)
         return index.render(today=datetime.today().date(),main=main_today, suites=suites, all=main_all, hafversion=PLATFORM_VERSION, testname="TODAY", mains=mains)
 
     @classmethod
@@ -121,7 +122,7 @@ class GeneratorHtml(object):
             main_all["error"] += m.error
             main_all["skip"] += m.skip
         main_all["all"] = main_all["passed"] + main_all["failed"] + main_all["error"] + main_all["skip"]
-        mains = GeneratorHtml.split_main(main_today)
+        mains = GeneratorHtml.split_main(main_today, [test_name])
         return index.render(today=datetime.today().date(), main=main_today, suites=suites, all=main_all,
                             hafversion=PLATFORM_VERSION, testname="ALL", mains=mains)
 
