@@ -58,7 +58,7 @@ class GeneratorHtml(object):
 
     @classmethod
     def g_main_today(cls, test_filter) -> str:
-        template_name = "main.html"
+        template_name = "today.html"
         index = GeneratorHtml.get_template(template_name)
         main_today = Controller.get_main_today()
         main_all = {"passed": 0, "failed": 0, "error": 0, "skip": 0, "all": 0}
@@ -106,7 +106,10 @@ class GeneratorHtml(object):
             case_detail = ControllerApi.get_case_detail_by_id(case.detail_id)[0]
             result["detail"] = case_detail
             results.append(result)
-        return index.render(main=main_today, suites=summarys, all=main, hafversion=PLATFORM_VERSION, testname=main.name, results=results)
+
+        *names, year, month, day, time = main.name.split("-")
+        name = "-".join(names)
+        return index.render(main=main_today, suites=summarys, all=main, hafversion=PLATFORM_VERSION, testname=name, results=results)
 
     @classmethod
     def g_main_one(cls, test_name: str) -> str:
@@ -124,7 +127,7 @@ class GeneratorHtml(object):
         main_all["all"] = main_all["passed"] + main_all["failed"] + main_all["error"] + main_all["skip"]
         mains = GeneratorHtml.split_main(main_today, [test_name])
         return index.render(today=datetime.today().date(), main=main_today, suites=suites, all=main_all,
-                            hafversion=PLATFORM_VERSION, testname="ALL", mains=mains)
+                            hafversion=PLATFORM_VERSION, testname=test_name, mains=mains)
 
 
 class GeneratorApi(object):
