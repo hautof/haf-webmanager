@@ -176,7 +176,8 @@
                     {% for key in mains.keys() %}
                     {% set main = mains.get(key) %}
                     <ul><h3><a href="/main?test_name={{key}}">{{key}}</a></h3>
-                        <li> <a onclick="showElement('{{key}}-url')">show details</a>
+                        <li>
+                        <!--<a onclick="showElement('{{key}}-url')">show details</a> -->
                             <div id="echart-{{key}}-map" style="height:200px;width:100%">
                                 <script type="text/javascript">
                                 var width = $("width_for_echart").width();
@@ -283,6 +284,7 @@
                             myChart.setOption(option);
                         </script>
                             </div>
+                            <!--
                             <div id="{{key}}-url" style="display:none">
                                  <table class="table">
                                     <thead style="width:100%">
@@ -312,6 +314,7 @@
                                     </tbody>
                                  </table>
                             </div>
+                            -->
                         </li>
                     </ul>
                     {% endfor %}
