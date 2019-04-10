@@ -217,13 +217,13 @@
                     {% set infos = ["success","danger", "", "warning"] %}
                     {% set id='{}.{}.{}.{}.all-pass'.format(case.bench_name, ids.case_id, ids.case_sub_id, ids.case_name) %}
                     {% set id_temp = '{}.{}.{}'.format(ids.case_id, ids.case_sub_id, ids.case_name) %}
-                    {% set method_group = {30: "GET", 31: "POST", 32: "PUT", 33: "DELETE"} %}
+                    {% set method_group = {"30": "GET", "31": "POST", "32": "PUT", "33": "DELETE"} %}
                     {% if detail.result == '50' %}
                     <tr class="{{infos[detail.result|int - 50]}}" id="{{id}}">
                         <td>{{case.bench_name}}</td>
                         <td>{{id_temp}}</td>
                         <td>
-                            <li>url : {{detail.url}}</li>
+                            <li>url : {{request.url}}</li>
                             <li onclick="showElement('{{id}}-request')" ><a>all</a></li>
                             <ul id="{{id}}-request" style="display:none">
                                 <li>method : {{method_group.get(request.method)}}
@@ -330,13 +330,13 @@
                     {% set infos = ["success", "danger", "", "warning"] %}
                     {% set id='{}.{}.{}.{}.all-fail'.format(case.bench_name, ids.case_id, ids.case_sub_id, ids.case_name) %}
                     {% set id_temp = '{}.{}.{}'.format(ids.case_id, ids.case_sub_id, ids.case_name) %}
-                    {% set method_group = {30: "GET", 31: "POST", 32: "PUT", 33: "DELETE"} %}
+                    {% set method_group = {"30": "GET", "31": "POST", "32": "PUT", "33": "DELETE"} %}
                     {% if detail.result == '51' %}
                     <tr class="{{infos[detail.result|int - 50]}}" id="{{id}}">
                         <td>{{case.bench_name}}</td>
                         <td>{{id_temp}}</td>
                         <td>
-                            <li>url : {{detail.url}}</li>
+                            <li>url : {{request.url}}</li>
                             <li onclick="showElement('{{id}}-request')" ><a>all</a></li>
                             <ul id="{{id}}-request" style="display:none">
                                 <li>method : {{method_group.get(request.method)}}
@@ -442,13 +442,13 @@
                     {% set infos = ["success","danger", "", "warning"] %}
                     {% set id='{}.{}.{}.{}.all-skip'.format(case.bench_name, ids.case_id, ids.case_sub_id, ids.case_name) %}
                     {% set id_temp = '{}.{}.{}'.format(ids.case_id, ids.case_sub_id, ids.case_name) %}
-                    {% set method_group = {30: "GET", 31: "POST", 32: "PUT", 33: "DELETE"} %}
+                    {% set method_group = {"30": "GET", "31": "POST", "32": "PUT", "33": "DELETE"} %}
                     {% if detail.result == '52' %}
                     <tr class="{{infos[detail.result|int - 50]}}" id="{{id}}">
                         <td>{{case.bench_name}}</td>
                         <td>{{id_temp}}</td>
                         <td>
-                            <li>url : {{detail.url}}</li>
+                            <li>url : {{request.url}}</li>
                             <li onclick="showElement('{{id}}-request')" ><a>all</a></li>
                             <ul id="{{id}}-request" style="display:none">
                                 <li>method : {{method_group.get(request.method)}}
@@ -555,13 +555,13 @@
                     {% set infos = ["success","danger", "", "warning"] %}
                     {% set id='{}.{}.{}.{}.all-error'.format(case.bench_name, ids.case_id, ids.case_sub_id, ids.case_name) %}
                     {% set id_temp = '{}.{}.{}'.format(ids.case_id, ids.case_sub_id, ids.case_name) %}
-                    {% set method_group = {30: "GET", 31: "POST", 32: "PUT", 33: "DELETE"} %}
+                    {% set method_group = {"30": "GET", "31": "POST", "32": "PUT", "33": "DELETE"} %}
                     {% if detail.result == '53' %}
                     <tr class="{{infos[detail.result|int - 50]}}" id="{{id}}">
                         <td>{{case.bench_name}}</td>
                         <td>{{id_temp}}</td>
                         <td>
-                            <li>url : {{detail.url}}</li>
+                            <li>url : {{request.url}}</li>
                             <li onclick="showElement('{{id}}-request')" ><a>all</a></li>
                             <ul id="{{id}}-request" style="display:none">
                                 <li>method : {{method_group.get(request.method)}}
