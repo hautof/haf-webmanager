@@ -1,6 +1,6 @@
 from hafweb.app import app
 from haf.config import BANNER_STRS
-from hafweb.generator import GeneratorHtml, GeneratorApi
+from hafweb.view.view import *
 from hafweb.controller.controller import *
 from flask import request
 from hafweb.error import *
@@ -11,6 +11,10 @@ def get_main_all_api() -> str:
     if request.method == "POST":
         date_time = request.form.get("date_time")
         test_name = request.form.get("test_name")
+        if not date_time or not test_name:
+            request_data = json.loads(request.data)
+            date_time = request_data.get("date_time") or date_time
+            test_name = request_data.get("test_name") or test_name
     else:
         date_time = request.args.get("date_time")
         test_name = request.args.get("test_name")
@@ -27,14 +31,14 @@ def get_main_all_api() -> str:
             if name == test_name:
                 temp.append(main)
         mains = temp
-
-    return GeneratorApi.generate_api("get_main_all_api", mains)
+    return ViewApi.get_main()
+    return ViewApi.generate_api("get_main_all_api", mains, 200)
 
 
 @app.route("/api/v1/main/today", methods=['GET', 'POST'])
 def get_main_today_api() -> str:
     mains =  Controller.get_main_today()
-    return GeneratorApi.generate_api("get_main_today_api", mains, 0)
+    return ViewApi.generate_api("get_main_today_api", mains, 0)
 
 
 @app.route("/api/v1/suite", methods=['GET', 'POST'])
@@ -45,10 +49,10 @@ def get_suite_by_main_id() -> str:
         main_id = request.args.get("main_id")
     if main_id is not None:
         suites = Controller.get_suite_by_main_id(main_id)
-        return GeneratorApi.generate_api("get_suite_by_main_id", suites)
+        return ViewApi.generate_api("get_suite_by_main_id", suites)
     else:
         error = ErrorHandler("get_suite_by_main_id", "main_id is blank")
-        return GeneratorApi.generate_error(error)
+        return ViewApi.generate_error(error)
 
 
 @app.route("/api/v1/summary", methods=['GET', 'POST'])
@@ -59,10 +63,10 @@ def get_summary_by_suite_id() -> str:
         suite_id = request.args.get("suite_id")
     if suite_id is not None:
         suites = Controller.get_summary_by_suite_id(suite_id)
-        return GeneratorApi.generate_api("get_summary_by_suite_id", suites)
+        return ViewApi.generate_api("get_summary_by_suite_id", suites)
     else:
         error = ErrorHandler("get_summary_by_suite_id", "suite_id is blank")
-        return GeneratorApi.generate_error(error)
+        return ViewApi.generate_error(error)
 
 
 @app.route("/api/v1/case", methods=['GET', 'POST'])
@@ -75,7 +79,7 @@ def get_case() -> str:
         cases =  ControllerApi.get_case_by_suite_id(suite_id)
     else:
         cases =  ControllerApi.get_case_all()
-    return GeneratorApi.generate_api("get_case_by_suite_id", cases)
+    return ViewApi.generate_api("get_case_by_suite_id", cases)
 
 
 @app.route("/api/v1/case/expect", methods=['GET', 'POST'])
@@ -86,7 +90,7 @@ def get_case_expect() -> str:
         id = request.args.get("id")
     if id is not None:
         expects =  ControllerApi.get_case_expect_by_id(id)
-        return GeneratorApi.generate_api("get_case_expect", expects)
+        return ViewApi.generate_api("get_case_expect", expects)
     else:
         return str(ErrorHandler("get_case_expect", "id is blank"))
 
@@ -99,9 +103,9 @@ def get_case_ids() -> str:
         id = request.args.get("id")
     if id is not None:
         ids = ControllerApi.get_case_ids_by_id(id)
-        return GeneratorApi.generate_api("get_case_ids", ids)
+        return ViewApi.generate_api("get_case_ids", ids)
     else:
-        return GeneratorApi.generate_error(ErrorHandler("get_case_ids", "id is blank"))
+        return ViewApi.generate_error(ErrorHandler("get_case_ids", "id is blank"))
 
 
 @app.route("/api/v1/case/request", methods=['GET', 'POST'])
@@ -112,9 +116,9 @@ def get_case_request() -> str:
         id = request.args.get("id")
     if id is not None:
         requests = ControllerApi.get_case_request_by_id(id)
-        return GeneratorApi.generate_api("get_case_request", requests)
+        return ViewApi.generate_api("get_case_request", requests)
     else:
-        return GeneratorApi.generate_error(ErrorHandler("get_case_request", "id is blank"))
+        return ViewApi.generate_error(ErrorHandler("get_case_request", "id is blank"))
 
 
 @app.route("/api/v1/case/response", methods=['GET', 'POST'])
@@ -125,9 +129,9 @@ def get_case_response() -> str:
         id = request.args.get("id")
     if id is not None:
         responses = ControllerApi.get_case_response_by_id(id)
-        return GeneratorApi.generate_api("get_case_response", responses)
+        return ViewApi.generate_api("get_case_response", responses)
     else:
-        return GeneratorApi.generate_error(ErrorHandler("get_case_response", "id is blank"))
+        return ViewApi.generate_error(ErrorHandler("get_case_response", "id is blank"))
 
 
 @app.route("/api/v1/case/sqlinfo", methods=['GET', 'POST'])
@@ -138,9 +142,9 @@ def get_case_sqlinfo() -> str:
         id = request.args.get("id")
     if id is not None:
         sqlinfos = ControllerApi.get_case_sqlinfo_by_id(id)
-        return GeneratorApi.generate_api("get_case_sqlinfo", sqlinfos)
+        return ViewApi.generate_api("get_case_sqlinfo", sqlinfos)
     else:
-        return GeneratorApi.generate_error(ErrorHandler("get_case_sqlinfo", "id is blank"))
+        return ViewApi.generate_error(ErrorHandler("get_case_sqlinfo", "id is blank"))
 
 
 @app.route("/api/v1/case/sqlinfo/checklist", methods=['GET', 'POST'])
@@ -151,9 +155,9 @@ def get_case_sqlinfo_checklist() -> str:
         id = request.args.get("id")
     if id is not None:
         checklists = ControllerApi.get_case_sqlinfo_checklist_by_id(id)
-        return GeneratorApi.generate_api("get_case_sqlinfo_checklist", checklists)
+        return ViewApi.generate_api("get_case_sqlinfo_checklist", checklists)
     else:
-        return GeneratorApi.generate_error(ErrorHandler("get_case_sqlinfo_checklist", "id is blank"))
+        return ViewApi.generate_error(ErrorHandler("get_case_sqlinfo_checklist", "id is blank"))
 
 
 @app.route("/api/v1/case/sqlinfo/config", methods=['GET', 'POST'])
@@ -164,9 +168,9 @@ def get_case_sqlinfo_config() -> str:
         id = request.args.get("id")
     if id is not None:
         configs = ControllerApi.get_case_sqlinfo_config_by_id(id)
-        return GeneratorApi.generate_api("get_case_sqlinfo_config", configs)
+        return ViewApi.generate_api("get_case_sqlinfo_config", configs)
     else:
-        return GeneratorApi.generate_error(ErrorHandler("get_case_sqlinfo_config", "id is blank"))
+        return ViewApi.generate_error(ErrorHandler("get_case_sqlinfo_config", "id is blank"))
 
 
 @app.route("/api/v1/case/sqlinfo/script", methods=['GET', 'POST'])
@@ -177,9 +181,9 @@ def get_case_sqlinfo_script() -> str:
         id = request.args.get("id")
     if id is not None:
         scripts = ControllerApi.get_case_sqlinfo_script_by_id(id)
-        return GeneratorApi.generate_api("get_case_sqlinfo_script", scripts)
+        return ViewApi.generate_api("get_case_sqlinfo_script", scripts)
     else:
-        return GeneratorApi.generate_error(ErrorHandler("get_case_sqlinfo_script", "id is blank"))
+        return ViewApi.generate_error(ErrorHandler("get_case_sqlinfo_script", "id is blank"))
 
 
 @app.route("/api/v1/case/detail", methods=['GET', 'POST'])
@@ -190,6 +194,6 @@ def get_case_detail() -> str:
         id = request.args.get("id")
     if id is not None:
         details = ControllerApi.get_case_detail_by_id(id)
-        return GeneratorApi.generate_api("get_case_detail", details)
+        return ViewApi.generate_api("get_case_detail", details)
     else:
-        return GeneratorApi.generate_error(ErrorHandler("get_case_detail", "id is blank"))
+        return ViewApi.generate_error(ErrorHandler("get_case_detail", "id is blank"))

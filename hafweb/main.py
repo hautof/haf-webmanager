@@ -3,6 +3,7 @@ import argparse
 
 from hafweb.route.route import *
 from hafweb.route.route_api import *
+from hafweb.route.route_token import *
 from hafweb.controller.controller import *
 
 
