@@ -45,19 +45,17 @@ class GeneratorHtml(object):
         index = GeneratorHtml.get_template(template_name)
         main_today = Controller.get_main_all()
         main_all = {"passed": 0, "failed": 0, "error": 0, "skip": 0, "all": 0}
-        suites = {}
         mains = GeneratorHtml.split_main(main_today, test_filter)
         for key in mains.keys():
             tests = mains.get(key)
             for mkey in tests.keys():
                 m = tests.get(mkey)
-                suites[m.id] = (Controller.get_suite_by_main_id(m.id))
                 main_all["passed"] += m.passed
                 main_all["failed"] += m.failed
                 main_all["error"] += m.error
                 main_all["skip"] += m.skip
         main_all["all"] = main_all["passed"] + main_all["failed"] + main_all["error"] + main_all["skip"]
-        return index.render(today=datetime.today().date(),main=main_today, suites=suites, all=main_all, hafversion=PLATFORM_VERSION, testname="ALL", mains=mains)
+        return index.render(today=datetime.today().date(),main=main_today, all=main_all, hafversion=PLATFORM_VERSION, testname="ALL", mains=mains)
 
     @classmethod
     def g_main_today(cls, test_filter) -> str:
@@ -65,19 +63,17 @@ class GeneratorHtml(object):
         index = GeneratorHtml.get_template(template_name)
         main_today = Controller.get_main_today()
         main_all = {"passed": 0, "failed": 0, "error": 0, "skip": 0, "all": 0}
-        suites = {}
         mains = GeneratorHtml.split_main(main_today, test_filter)
         for key in mains.keys():
             tests = mains.get(key)
             for mkey in tests.keys():
                 m = tests.get(mkey)
-                suites[m.id] = (Controller.get_suite_by_main_id(m.id))
                 main_all["passed"] += m.passed
                 main_all["failed"] += m.failed
                 main_all["error"] += m.error
                 main_all["skip"] += m.skip
         main_all["all"] = main_all["passed"] + main_all["failed"] + main_all["error"] + main_all["skip"]
-        return index.render(today=datetime.today().date(),main=main_today, suites=suites, all=main_all, hafversion=PLATFORM_VERSION, testname="TODAY", mains=mains)
+        return index.render(today=datetime.today().date(),main=main_today, all=main_all, hafversion=PLATFORM_VERSION, testname="TODAY", mains=mains)
 
     @classmethod
     def g_test(cls, test_id: int) -> str:

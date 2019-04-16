@@ -18,6 +18,7 @@ def main_page() -> str:
         test_filter = request.form.get("test_filter")
     else:
         test_filter = request.args.get("test_filter")
+    print("app route /index")
     return GeneratorHtml.g_main(test_filter.split(',') if test_filter else [])
 
 

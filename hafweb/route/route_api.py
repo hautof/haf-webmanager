@@ -72,7 +72,7 @@ def get_case() -> str:
     else:
         suite_id = request.args.get("suite_id")
     if suite_id is not None:
-        cases =  ControllerApi.get_case_by_suite_id( suite_id)
+        cases =  ControllerApi.get_case_by_suite_id(suite_id)
     else:
         cases =  ControllerApi.get_case_all()
     return GeneratorApi.generate_api("get_case_by_suite_id", cases)
