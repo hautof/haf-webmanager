@@ -12,7 +12,7 @@ pipeline {
 	sh 'rm -rf .coverage'
 	try{
 		sh 'echo EOF | coverage run --source=./hafweb/ -m hafweb run -ss=root:mengwei@localhost:3306/haf_publish'
-	}catch(){
+	}catch(Exception e){
 	}
 	sh 'coverage report'
       }
