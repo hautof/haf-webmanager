@@ -156,6 +156,169 @@
         </div>
     </div>
 
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="jumbotron well" style="text-aligin:center">
+                    <ul>
+                        <li> <a></a>
+                            <div id="echart-map" style="height:800px;width:100%">
+                                <script type="text/javascript">
+                                var width = $("width_for_echart").width();
+                                var myChart = echarts.init(document.getElementById('echart-map'));
+                                option = {
+                                    title: {
+                                        text: '{{today}}'
+                                    },
+                                    tooltip : {
+                                        trigger: 'axis',
+                                        axisPointer: {
+                                            type: 'shadow',
+                                            label: {
+                                                backgroundColor: '#6a7985'
+                                            }
+                                        }
+                                    },
+                                    legend: {
+                                        data:['fail','skip','error','pass'],
+                                        width : width
+                                    },
+                                    toolbox: {
+                                        feature: {
+                                            saveAsImage: {}
+                                        }
+                                    },
+                                    grid: {
+                                        left: '3%',
+                                        right: '4%',
+                                        bottom: '3%',
+                                        containLabel: true
+                                    },
+                                    yAxis : [
+                                        {
+                                            type : 'category',
+                                            data : [
+                                            {% for key in mains.keys() %}
+                                            {% set main = mains.get(key) %}
+                                            {% for time_str in main.keys() %}
+                                            '{{ key }}',
+                                            {% endfor %}
+                                            {% endfor %}
+                                            ]
+                                        }
+                                    ],
+                                    xAxis : [
+                                        {
+                                            type : 'value'
+                                        }
+                                    ],
+                                    series : [
+                                        {
+                                            name:'pass',
+                                            type:'bar',
+                                            barWidth : 30,
+                                            color: 'green',
+                                            stack: '总量',
+                                            areaStyle: {},
+                                            label: {
+                                                normal: {
+                                                    show: true,
+                                                    position: 'insideRight'
+                                                }
+                                            },
+                                            data:[
+                                            {% for key in mains.keys() %}
+                                            {% set main = mains.get(key) %}
+                                            {% for time_str in main.keys() %}
+                                            {% set current = main.get(time_str) %}
+                                            {{ current.passed }},
+                                            {% endfor %}
+                                            {% endfor %}
+                                            ]
+                                        },
+                                        {
+                                            name:'fail',
+                                            type:'bar',
+                                            barWidth : 30,
+                                            label: {
+                                                normal: {
+                                                    show: true,
+                                                    position: 'insideRight'
+                                                }
+                                            },
+                                            color: 'red',
+                                            stack: '总量',
+                                            areaStyle: {},
+                                            data:[
+                                            {% for key in mains.keys() %}
+                                            {% set main = mains.get(key) %}
+                                            {% for time_str in main.keys() %}
+                                            {% set current = main.get(time_str) %}
+                                            {{ current.failed }},
+                                            {% endfor %}
+                                            {% endfor %}
+                                            ]
+                                        },
+                                        {
+                                            name:'error',
+                                            type:'bar',
+                                            barWidth : 30,
+                                            color: 'yellow',
+                                            label: {
+                                                normal: {
+                                                    show: true,
+                                                    position: 'insideRight'
+                                                }
+                                            },
+                                            stack: '总量',
+                                            areaStyle: {},
+                                            data:[
+                                            {% for key in mains.keys() %}
+                                            {% set main = mains.get(key) %}
+                                            {% for time_str in main.keys() %}
+                                            {% set current = main.get(time_str) %}
+                                            {{ current.error }},
+                                            {% endfor %}
+                                            {% endfor %}
+                                            ]
+                                        },
+                                        {
+                                            name:'skip',
+                                            type:'bar',
+                                            barWidth : 30,
+                                            label: {
+                                                normal: {
+                                                    show: true,
+                                                    position: 'insideRight'
+                                                }
+                                            },
+                                            color: 'white',
+                                            stack: '总量',
+                                            areaStyle: {},
+                                            data:[
+                                            {% for key in mains.keys() %}
+                                            {% set main = mains.get(key) %}
+                                            {% for time_str in main.keys() %}
+                                            {% set current = main.get(time_str) %}
+                                            {{ current.skip }},
+                                            {% endfor %}
+                                            {% endfor %}
+                                            ]
+                                        },
+                                    ]
+                                };
+
+                            myChart.on('click', function(params){
+                                showElement('all_'+params.data.name)
+                            });
+                            myChart.setOption(option);
+                            </script>
+                            </div>
+                        </li>
+                    </ul>
+            </div>
+    </div>
+    </div>
+
 
     <div class="row clearfix">
         <div class="col-md-12 column">
