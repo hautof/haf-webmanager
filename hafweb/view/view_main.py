@@ -65,16 +65,18 @@ class ViewMain(object):
         main_today = Controller.get_main_today()
         main_all = {"passed": 0, "failed": 0, "error": 0, "skip": 0, "all": 0}
         mains = ViewMain.split_main(main_today, test_filter)
+        all_count = 0
         for key in mains.keys():
             tests = mains.get(key)
             for mkey in tests.keys():
+                all_count += 1
                 m = tests.get(mkey)
                 main_all["passed"] += m.passed
                 main_all["failed"] += m.failed
                 main_all["error"] += m.error
                 main_all["skip"] += m.skip
         main_all["all"] = main_all["passed"] + main_all["failed"] + main_all["error"] + main_all["skip"]
-        return index.render(today=datetime.today().date(),main=main_today, all=main_all, hafversion=PLATFORM_VERSION, testname="TODAY", mains=mains)
+        return index.render(today=datetime.today().date(),main=main_today, all=main_all, hafversion=PLATFORM_VERSION, testname="TODAY", mains=mains, all_count=all_count)
 
     @classmethod
     def g_test(cls, test_id: int) -> str:
