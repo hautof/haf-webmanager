@@ -49,3 +49,14 @@ def main_one_page() -> str:
         test_name = request.args.get("test_name")
     return ViewMain.g_main_one(test_name)
 
+
+@app.route("/case", methods=['GET'])
+def case_history_page() -> str:
+    if request.method == "POST":
+        id = request.form.get("id")
+        suite_name = request.form.get("suite_name")
+    else:
+        id = request.args.get("id")
+        suite_name = request.args.get("suite_name")
+    return ViewMain.g_case(id, suite_name)
+

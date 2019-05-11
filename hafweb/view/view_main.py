@@ -134,3 +134,21 @@ class ViewMain(object):
         return index.render(today=datetime.today().date(), main=main_today, suites=suites, all=main_all,
                             hafversion=PLATFORM_VERSION, testname=test_name, mains=mains)
 
+    @classmethod
+    def g_case(cls, id: str, suite_name: str) -> str:
+        template_name = "case.html"
+        index = ViewMain.get_template(template_name)
+        case_id, sub_id, case_name = id.split(".")
+        main_today = ControllerApi.get_case_history_by_id(case_id, sub_id, case_name, suite_name)
+        main_all = {"passed": 0, "failed": 0, "error": 0, "skip": 0, "all": 0}
+        suites = {}
+        for m in main_today:
+            suites[m.id] = (Controller.get_suite_by_main_id(m.id))
+            main_all["passed"] += m.passed
+            main_all["failed"] += m.failed
+            main_all["error"] += m.error
+            main_all["skip"] += m.skip
+        main_all["all"] = main_all["passed"] + main_all["failed"] + main_all["error"] + main_all["skip"]
+        mains = ViewMain.split_main(main_today, [test_name])
+        return index.render(today=datetime.today().date(), main=main_today, suites=suites, all=main_all,
+                            hafversion=PLATFORM_VERSION, testname=test_name, mains=mains)

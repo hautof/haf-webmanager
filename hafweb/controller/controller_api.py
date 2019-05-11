@@ -97,3 +97,10 @@ class ControllerApi(object):
         with session_close() as session:
             temp = session.query(ApiDetail).filter(ApiDetail.id==id).all()
             return temp
+
+    @classmethod
+    def get_case_history_by_id(cls, id, sub_id, case_name, suite_name):
+        with session_close() as session:
+            all_cases_ids_id = session.query(ApiCaseIds.id).filter(and_(ApiCaseIds.case_id==id, ApiCaseIds.case_sub_id==sub_id, ApiCaseIds.case_name==case_name)).all()
+            temp = session.query(ApiCase).filter(and_(ApiCase.ids_id.in_([x[0] for x in all_cases_ids_id]), ApiCase.bench_name==suite_name)).all()
+            return temp

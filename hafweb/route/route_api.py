@@ -197,3 +197,22 @@ def get_case_detail() -> str:
         return ViewApi.generate_api("get_case_detail", details)
     else:
         return ViewApi.generate_error(ErrorHandler("get_case_detail", "id is blank"))
+
+
+@app.route("/api/v1/case/history", methods=["GET", "POST"])
+def get_case_history() -> str:
+    if request.method == "POST":
+        id = request.form.get("id")
+        suite_name = request.form.get("suite_name")
+    else:
+        id = request.args.get("id")
+        suite_name = request.args.get("suite_name")
+    if id is not None:
+        try:
+            case_id, sub_id, case_name = id.split(".")
+            details = ControllerApi.get_case_history_by_id(case_id, sub_id, case_name, suite_name)
+            return ViewApi.generate_api("get_case_history", details)
+        except Exception :
+            return ViewApi.generate_error(ErrorHandler("get_case_history", "id is error"))
+    else:
+        return ViewApi.generate_error(ErrorHandler("get_case_history", "id is blank"))
