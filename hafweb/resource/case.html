@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/html">
 <head>
-
+    <title>
+        {{test_name}}
+    </title>
     {% block head %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -77,13 +79,15 @@
     {% endblock %}
 </head>
 <body>
+
+
 <div style="width:100%;margin:0 auto">
     <div class="row clearfix">
         <div class="col-md-12 column">
             <div class="jumbotron well">
                 <div>
-                    <a href="/main?test_name={{testname}}">back</a>
-                    <center><h2> {{testname}} </h2></center>
+                    <a href="test?test_id={{test_id}}">back to test</a>
+                    <center><h2> {{test_name}} </h2></center>
                     <br>
                 </div>
             </div>
@@ -166,6 +170,128 @@
                     myChart.setOption(option);
                 </script>
                 </div>
+                 <div id="echart-map" style="height:200px;width:100%">
+                        <script type="text/javascript">
+                                var width = $("width_for_echart").width();
+                                var myChart = echarts.init(document.getElementById('echart-map'));
+                                option = {
+                                    title: {
+                                        text: '{{key}}'
+                                    },
+                                    tooltip : {
+                                        trigger: 'axis',
+                                        axisPointer: {
+                                            type: 'cross',
+                                            label: {
+                                                backgroundColor: '#6a7985'
+                                            }
+                                        }
+                                    },
+                                    legend: {
+                                        data:['fail','skip','error','pass'],
+                                        width : width
+                                    },
+                                    toolbox: {
+                                        feature: {
+                                            saveAsImage: {}
+                                        }
+                                    },
+                                    grid: {
+                                        left: '3%',
+                                        right: '4%',
+                                        bottom: '3%',
+                                        containLabel: true
+                                    },
+                                    xAxis : [
+                                        {
+                                            type : 'category',
+                                            boundaryGap : false,
+                                            data : {{main_all.keys()|list|safe}}
+                                        }
+                                    ],
+                                    yAxis : [
+                                        {
+                                            type : 'value'
+                                        }
+                                    ],
+                                    series : [
+                                        {
+                                            name:'pass',
+                                            type:'line',
+                                            color: 'green',
+                                            stack: '总量',
+                                            areaStyle: {},
+                                            data:[
+                                            {% for time_str in main_all.keys() %}
+                                            {% set current = main_all.get(time_str) %}
+                                            {% if current == "PASS" %}
+                                            1,
+                                            {% else %}
+                                            0,
+                                            {% endif %}
+                                            {% endfor %}
+                                            ]
+                                        },
+                                        {
+                                            name:'fail',
+                                            type:'line',
+                                            color: 'red',
+                                            stack: '总量',
+                                            areaStyle: {},
+                                            data:[
+                                            {% for time_str in main_all.keys() %}
+                                            {% set current = main_all.get(time_str) %}
+                                            {% if current == "FAIL" %}
+                                            1,
+                                            {% else %}
+                                            0,
+                                            {% endif %}
+                                            {% endfor %}
+                                            ]
+                                        },
+                                        {
+                                            name:'error',
+                                            type:'line',
+                                            color: 'yellow',
+                                            stack: '总量',
+                                            areaStyle: {},
+                                            data:[
+                                            {% for time_str in main_all.keys() %}
+                                            {% set current = main_all.get(time_str) %}
+                                            {% if current == "ERROR" %}
+                                            1,
+                                            {% else %}
+                                            0,
+                                            {% endif %}
+                                            {% endfor %}
+                                            ]
+                                        },
+                                        {
+                                            name:'skip',
+                                            type:'line',
+                                            color: 'white',
+                                            stack: '总量',
+                                            areaStyle: {},
+                                            data:[
+                                            {% for time_str in main_all.keys() %}
+                                            {% set current = main_all.get(time_str) %}
+                                            {% if current == "SKIP" %}
+                                            1,
+                                            {% else %}
+                                            0,
+                                            {% endif %}
+                                            {% endfor %}
+                                            ]
+                                        },
+                                    ]
+                                };
+
+                            myChart.on('click', function(params){
+                                showElement('all_'+params.data.name)
+                            });
+                            myChart.setOption(option);
+                        </script>
+                    </div>
             </div>
         </div>
     </div>
@@ -215,13 +341,13 @@
                     {% set sqlinfo=result["sqlinfo"] %}
                     {% set detail=result["detail"] %}
                     {% set infos = ["success","danger", "", "warning"] %}
-                    {% set id='{}.{}.{}.{}.all-pass'.format(case.bench_name, ids.case_id, ids.case_sub_id, ids.case_name) %}
-                    {% set id_temp = '{}.{}.{}'.format(ids.case_id, ids.case_sub_id, ids.case_name) %}
+                    {% set id='{}.{}.{}.{}.{}.all-pass'.format(case.bench_name, ids.case_id, ids.case_sub_id, ids.case_name, detail.id) %}
+                    {% set id_temp = '{}.{}.{}.{}'.format(ids.case_id, ids.case_sub_id, ids.case_name, detail.id) %}
                     {% set method_group = {"30": "GET", "31": "POST", "32": "PUT", "33": "DELETE"} %}
                     {% if detail.result == '50' %}
                     <tr class="{{infos[detail.result|int - 50]}}" id="{{id}}">
                         <td>{{case.bench_name}}</td>
-                        <td><a href="/case?id={{id_temp}}&suite_name={{case.bench_name}}">{{id_temp}}</a></td>
+                        <td>{{id_temp}}</td>
                         <td>
                             <li>url : {{request.url}}</li>
                             <li onclick="showElement('{{id}}-request')" ><a>all</a></li>
@@ -328,8 +454,8 @@
                     {% set sqlinfo=result["sqlinfo"] %}
                     {% set detail=result["detail"] %}
                     {% set infos = ["success", "danger", "", "warning"] %}
-                    {% set id='{}.{}.{}.{}.all-fail'.format(case.bench_name, ids.case_id, ids.case_sub_id, ids.case_name) %}
-                    {% set id_temp = '{}.{}.{}'.format(ids.case_id, ids.case_sub_id, ids.case_name) %}
+                    {% set id='{}.{}.{}.{}.{}.all-fail'.format(case.bench_name, ids.case_id, ids.case_sub_id, ids.case_name, detail.id) %}
+                    {% set id_temp = '{}.{}.{}.{}'.format(ids.case_id, ids.case_sub_id, ids.case_name, detail.id) %}
                     {% set method_group = {"30": "GET", "31": "POST", "32": "PUT", "33": "DELETE"} %}
                     {% if detail.result == '51' %}
                     <tr class="{{infos[detail.result|int - 50]}}" id="{{id}}">
@@ -440,8 +566,8 @@
                     {% set sqlinfo=result["sqlinfo"] %}
                     {% set detail=result["detail"] %}
                     {% set infos = ["success","danger", "", "warning"] %}
-                    {% set id='{}.{}.{}.{}.all-skip'.format(case.bench_name, ids.case_id, ids.case_sub_id, ids.case_name) %}
-                    {% set id_temp = '{}.{}.{}'.format(ids.case_id, ids.case_sub_id, ids.case_name) %}
+                    {% set id='{}.{}.{}.{}.{}.all-skip'.format(case.bench_name, ids.case_id, ids.case_sub_id, ids.case_name, detail.id) %}
+                    {% set id_temp = '{}.{}.{}.{}'.format(ids.case_id, ids.case_sub_id, ids.case_name, detail.id) %}
                     {% set method_group = {"30": "GET", "31": "POST", "32": "PUT", "33": "DELETE"} %}
                     {% if detail.result == '52' %}
                     <tr class="{{infos[detail.result|int - 50]}}" id="{{id}}">
@@ -553,8 +679,8 @@
                     {% set sqlinfo=result["sqlinfo"] %}
                     {% set detail=result["detail"] %}
                     {% set infos = ["success","danger", "", "warning"] %}
-                    {% set id='{}.{}.{}.{}.all-error'.format(case.bench_name, ids.case_id, ids.case_sub_id, ids.case_name) %}
-                    {% set id_temp = '{}.{}.{}'.format(ids.case_id, ids.case_sub_id, ids.case_name) %}
+                    {% set id='{}.{}.{}.{}.{}.all-error'.format(case.bench_name, ids.case_id, ids.case_sub_id, ids.case_name, detail.id) %}
+                    {% set id_temp = '{}.{}.{}.{}'.format(ids.case_id, ids.case_sub_id, ids.case_name, detail.id) %}
                     {% set method_group = {"30": "GET", "31": "POST", "32": "PUT", "33": "DELETE"} %}
                     {% if detail.result == '53' %}
                     <tr class="{{infos[detail.result|int - 50]}}" id="{{id}}">
@@ -621,45 +747,115 @@
         {% endblock %}
     </div>
 
-    <div class="row clearfix">
+    <div class="row clearfix" id="all">
+        {% block all %}
         <div class="col-md-12 column">
-            <div class="jumbotron well">
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="navbar-header">
+                             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span>
+                                 <span class="icon-bar"></span>
+                             </button>
+                             <a class="navbar-brand" style="color:green" onclick="showElement('all')">All</a>
+                        </div>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a onclick="showElement('all')" style="color:red"> Close </a></li>
+                            <li><a></a></li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="jumbotron well">
                 <table class="table">
-                        <thead>
-                            <tr >
-                                <th>Suite Name</th>
-                                <th>Base URL</th>
-                                <th>Begin Time</th>
-                                <th>End Time</th>
-                                <th>Duration</th>
-                                <th>Pass</th>
-                                <th>Fail</th>
-                                <th>Error</th>
-                                <th>Skip</th>
-                                <th>All</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% block suites1 %}
-                            {% for suite in suites %}
-                            <tr >
-                                <td><li><a>{{suite.name}}</a></li></td>
-                                <td><li><a>{{suite.base_url}}</a></li></td>
-                                <td>{{suite.begin_time}}</td>
-                                <td>{{suite.end_time}}</td>
-                                <td>{{suite.duration_time}}</td>
-                                <td><a onclick="showElement('all_pass')">{{suite.passed}}</a></td>
-                                <td><a onclick="showElement('all_fail')">{{suite.failed}}</a></td>
-                                <td><a onclick="showElement('all_error')">{{suite.error}}</a></td>
-                                <td><a onclick="showElement('all_skip')">{{suite.skip}}</a></td>
-                                <td><a onclick="showElement('all_skip')">{{suite.all}}</a></td>
-                            </tr>
-                            {% endfor %}
-                            {% endblock %}
-                        </tbody>
+                <thead>
+                    <tr>
+                        <th>Suite Name</th>
+                        <th>Case Id</th>
+                        <th>Request</th>
+                        <th>Response</th>
+                        <th>Check</th>
+                        <th>Time</th>
+                        <th>DependenceCase</th>
+                        <th>Runner</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in results %}
+                    {% set case=result["case"] %}
+                    {% set ids=result["ids"] %}
+                    {% set request=result["request"] %}
+                    {% set response=result["response"] %}
+                    {% set expect=result["expect"] %}
+                    {% set sqlinfo=result["sqlinfo"] %}
+                    {% set detail=result["detail"] %}
+                    {% set infos = ["success","danger", "", "warning"] %}
+                    {% set id='{}.{}.{}.{}.{}.all'.format(case.bench_name, ids.case_id, ids.case_sub_id, ids.case_name, detail.id) %}
+                    {% set id_temp = '{}.{}.{}.{}..all'.format(ids.case_id, ids.case_sub_id, ids.case_name, detail.id) %}
+                    {% set method_group = {"30": "GET", "31": "POST", "32": "PUT", "33": "DELETE"} %}
+                    <tr class="{{infos[detail.result|int - 50]}}" id="{{id}}">
+                        <td>{{case.bench_name}}</td>
+                        <td>{{id_temp}}</td>
+                        <td>
+                            <li>url : {{request.url}}</li>
+                            <li onclick="showElement('{{id}}-request')" ><a>all</a></li>
+                            <ul id="{{id}}-request" style="display:none">
+                                <li>method : {{method_group.get(request.method)}}
+                                </li>
+                                <li>header :
+                                    <pre>{{request.header}}</pre>
+                                </li>
+                                <li>data :
+                                    <pre>{{request.data}}</pre>
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <li >code : {{response.code}}</li>
+                            <li onclick="showElement('{{id}}-response')" ><a>all</a></li>
+                            <ul id="{{id}}-response" style="display:none">
+                                <li style="hidden:none">
+                                    header :
+                                    <pre>{{response.header}}</pre>
+                                </li>
+                                <li style="hidden:none">
+                                    body :
+                                    <pre>{{response.body}}</pre>
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <li onclick="showElement('{{id}}.run_error')"><a>run error</a></li>
+                            <div id="{{id}}.run_error" style="display:none">
+                                <pre> {{detail.run_error}} </pre>
+                            </div>
+                        </td>
+                        <td>
+                            <ul>
+                                <li> {{"beg {}".format(detail.begin_time)}}</li>
+                                <li> {{"end {}".format(detail.end_time)}}</li>
+                                <li> {{"dur {}".format(detail.duration)}}</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>{{case.dependent}}</li>
+                            </ul>
+                        </td>
+                        <td>{{detail.runner}}</td>
+                        {% set result_group = ["PASS","FAIL","SKIP","ERROR" ] %}
+                        <td>{{result_group[detail.result|int - 50]}}</td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
                 </table>
+                </div>
             </div>
-    </div>
+        </div>
+        {% endblock %}
     </div>
 </div>
 </body>

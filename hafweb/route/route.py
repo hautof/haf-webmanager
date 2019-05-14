@@ -32,6 +32,22 @@ def main_page_today() -> str:
     return ViewMain.g_main_today(test_filter.split(',') if test_filter else [])
 
 
+@app.route("/daily")
+def main_page_daily() -> str:
+    test_filter = ""
+    date = ""
+    if request.method == "POST":
+        test_filter = request.form.get("test_filter")
+        date = request.form.get("date")
+    else:
+        test_filter = request.args.get("test_filter")
+        date = request.args.get("date")
+    if date=="" or date is None:
+        return ViewMain.g_main_today(test_filter.split(',') if test_filter else [])
+    return ViewMain.g_main_daily(test_filter.split(',') if test_filter else [], date)
+
+
+
 @app.route("/test", methods=['GET'])
 def test_page() -> str:
     if request.method == "POST":
@@ -54,9 +70,11 @@ def main_one_page() -> str:
 def case_history_page() -> str:
     if request.method == "POST":
         id = request.form.get("id")
+        test_id = request.form.get("test_id")
         suite_name = request.form.get("suite_name")
     else:
         id = request.args.get("id")
+        test_id = request.args.get("test_id")
         suite_name = request.args.get("suite_name")
-    return ViewMain.g_case(id, suite_name)
+    return ViewMain.g_case(id, suite_name, test_id)
 

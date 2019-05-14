@@ -82,8 +82,8 @@
         <div class="col-md-12 column">
             <div class="jumbotron well">
                 <div>
-                    <a href="/main?test_name={{testname}}">back</a>
-                    <center><h2> {{testname}} </h2></center>
+                    <a href="/main?test_name={{back_name}}">{{back_name}}</a>
+                    <center><a href="/main?test_name={{back_name}}"><h2> {{testname}} </h2></a></center>
                     <br>
                 </div>
             </div>
@@ -221,7 +221,7 @@
                     {% if detail.result == '50' %}
                     <tr class="{{infos[detail.result|int - 50]}}" id="{{id}}">
                         <td>{{case.bench_name}}</td>
-                        <td><a href="/case?id={{id_temp}}&suite_name={{case.bench_name}}">{{id_temp}}</a></td>
+                        <td><a href="/case?id={{id_temp}}&suite_name={{case.bench_name}}&test_id={{test_id}}">{{id_temp}}</a></td>
                         <td>
                             <li>url : {{request.url}}</li>
                             <li onclick="showElement('{{id}}-request')" ><a>all</a></li>
@@ -334,7 +334,7 @@
                     {% if detail.result == '51' %}
                     <tr class="{{infos[detail.result|int - 50]}}" id="{{id}}">
                         <td>{{case.bench_name}}</td>
-                        <td>{{id_temp}}</td>
+                        <td><a href="/case?id={{id_temp}}&suite_name={{case.bench_name}}&test_id={{test_id}}">{{id_temp}}</a></td>
                         <td>
                             <li>url : {{request.url}}</li>
                             <li onclick="showElement('{{id}}-request')" ><a>all</a></li>
@@ -446,7 +446,7 @@
                     {% if detail.result == '52' %}
                     <tr class="{{infos[detail.result|int - 50]}}" id="{{id}}">
                         <td>{{case.bench_name}}</td>
-                        <td>{{id_temp}}</td>
+                        <td><a href="/case?id={{id_temp}}&suite_name={{case.bench_name}}&test_id={{test_id}}">{{id_temp}}</a></td>
                         <td>
                             <li>url : {{request.url}}</li>
                             <li onclick="showElement('{{id}}-request')" ><a>all</a></li>
@@ -559,7 +559,7 @@
                     {% if detail.result == '53' %}
                     <tr class="{{infos[detail.result|int - 50]}}" id="{{id}}">
                         <td>{{case.bench_name}}</td>
-                        <td>{{id_temp}}</td>
+                        <td><a href="/case?id={{id_temp}}&suite_name={{case.bench_name}}&test_id={{test_id}}">{{id_temp}}</a></td>
                         <td>
                             <li>url : {{request.url}}</li>
                             <li onclick="showElement('{{id}}-request')" ><a>all</a></li>
