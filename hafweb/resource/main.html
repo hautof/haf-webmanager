@@ -163,6 +163,112 @@
                     myChart.setOption(option);
                 </script>
                 </div>
+                    <div id="echart-every-day-map" style="height:200px;width:100%">
+                            <script type="text/javascript">
+                                var width = $("width_for_echart").width();
+                                var myChart = echarts.init(document.getElementById('echart-every-day-map'));
+                                option = {
+                                    title: {
+                                        text: '{{key}}'
+                                    },
+                                    tooltip : {
+                                        trigger: 'axis',
+                                        axisPointer: {
+                                            type: 'cross',
+                                            label: {
+                                                backgroundColor: '#6a7985'
+                                            }
+                                        }
+                                    },
+                                    legend: {
+                                        data:['fail','skip','error','pass'],
+                                        width : width
+                                    },
+                                    toolbox: {
+                                        feature: {
+                                            saveAsImage: {}
+                                        }
+                                    },
+                                    grid: {
+                                        left: '3%',
+                                        right: '4%',
+                                        bottom: '3%',
+                                        containLabel: true
+                                    },
+                                    xAxis : [
+                                        {
+                                            type : 'category',
+                                            boundaryGap : false,
+                                            data : {{every_day.keys()|list|safe}}
+                                        }
+                                    ],
+                                    yAxis : [
+                                        {
+                                            type : 'value'
+                                        }
+                                    ],
+                                    series : [
+                                        {
+                                            name:'pass',
+                                            type:'line',
+                                            color: 'green',
+                                            stack: '总量',
+                                            areaStyle: {},
+                                            data:[
+                                            {% for time_str in every_day.keys() %}
+                                            {% set current = every_day.get(time_str) %}
+                                            {{ current.passed }},
+                                            {% endfor %}
+                                            ]
+                                        },
+                                        {
+                                            name:'fail',
+                                            type:'line',
+                                            color: 'red',
+                                            stack: '总量',
+                                            areaStyle: {},
+                                            data:[
+                                            {% for time_str in every_day.keys() %}
+                                            {% set current = every_day.get(time_str) %}
+                                            {{ current.failed }},
+                                            {% endfor %}
+                                            ]
+                                        },
+                                        {
+                                            name:'error',
+                                            type:'line',
+                                            color: 'yellow',
+                                            stack: '总量',
+                                            areaStyle: {},
+                                            data:[
+                                            {% for time_str in every_day.keys() %}
+                                            {% set current = every_day.get(time_str) %}
+                                            {{ current.error }},
+                                            {% endfor %}
+                                            ]
+                                        },
+                                        {
+                                            name:'skip',
+                                            type:'line',
+                                            color: 'white',
+                                            stack: '总量',
+                                            areaStyle: {},
+                                            data:[
+                                            {% for time_str in every_day.keys() %}
+                                            {% set current = every_day.get(time_str) %}
+                                            {{ current.skip }},
+                                            {% endfor %}
+                                            ]
+                                        },
+                                    ]
+                                };
+
+                            myChart.on('click', function(params){
+                                showElement('all_'+params.data.name)
+                            });
+                            myChart.setOption(option);
+                        </script>
+                </div>
             </div>
         </div>
     </div>

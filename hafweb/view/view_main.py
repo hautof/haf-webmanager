@@ -47,16 +47,30 @@ class ViewMain(object):
         main_today = Controller.get_main_all()
         main_all = {"passed": 0, "failed": 0, "error": 0, "skip": 0, "all": 0}
         mains = ViewMain.split_main(main_today, test_filter)
+        every_day = {}
         for key in mains.keys():
             tests = mains.get(key)
+            just_get_one = []
             for mkey in tests.keys():
+                y, m, d, t = mkey.split("-")
+                date_key = f"{y}-{m}-{d}"
+                if date_key not in every_day.keys():
+                    every_day[date_key] = {"passed": 0, "failed": 0, "error": 0, "skip": 0, "all": 0}
+
                 m = tests.get(mkey)
+                if date_key not in just_get_one:
+                    every_day[date_key]["passed"] += m.passed
+                    every_day[date_key]["failed"] += m.failed
+                    every_day[date_key]["error"] += m.error
+                    every_day[date_key]["skip"] += m.skip
+                    just_get_one.append(date_key)
                 main_all["passed"] += m.passed
                 main_all["failed"] += m.failed
                 main_all["error"] += m.error
                 main_all["skip"] += m.skip
+        every_day = {x[0]:x[1] for x in sorted(every_day.items(), key=lambda x:x[0])}
         main_all["all"] = main_all["passed"] + main_all["failed"] + main_all["error"] + main_all["skip"]
-        return index.render(today=datetime.today().date(),main=main_today, all=main_all, hafversion=PLATFORM_VERSION, testname="ALL", mains=mains)
+        return index.render(today=datetime.today().date(),main=main_today, all=main_all, hafversion=PLATFORM_VERSION, testname="ALL", mains=mains, every_day=every_day)
 
     @classmethod
     def g_main_today(cls, test_filter) -> str:
