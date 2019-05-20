@@ -80,7 +80,7 @@
         <div class="col-md-12 column">
             <div class="jumbotron well">
                 <div>
-                    <center><h2> HAF-Report {{testname}} {{today}} Summary</h2></center>
+                    <center><h2> HAF-Report {{testname}} <a href="today">{{today}}</a> Summary</h2></center>
                     <br>
                 </div>
             </div>
@@ -263,9 +263,6 @@
                                     ]
                                 };
 
-                            myChart.on('click', function(params){
-                                showElement('all_'+params.data.name)
-                            });
                             myChart.setOption(option);
                         </script>
                 </div>

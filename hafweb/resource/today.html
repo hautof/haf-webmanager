@@ -10,7 +10,13 @@
     <style type="text/css">
         {% include "css/bootstrap.min.css" %}
     </style>
+    <style type="text/css">
+        {% include "css/bootstrap-datepicker.min.css" %}
+    </style>
     <script src="https://unpkg.com/echarts@4.1.0/dist/echarts.min.js"></script>
+    <script type="text/javascript">
+        {% include "js/bootstrap-datepicker.min.js" %}
+    </script>
     <script type="text/javascript">
         {% include "js/base.js" %}
         {% include "js/jquery.min.js" %}
@@ -66,7 +72,13 @@
                     hideNow(now_status_b[j]);
                 }
             }
-        }
+        };
+
+    function choose_test_by_date() {
+        var x = document.getElementById("choose_test_date").value;
+        window.location.href = "daily?date=" + x
+    }
+
     </script>
     <script language="javascript">
     </script>
@@ -80,6 +92,13 @@
     <div class="row clearfix">
         <div class="col-md-12 column">
             <div class="jumbotron well">
+                <div >
+                    <a href="index">Show All Test</a>
+                    <br></br>
+                </div>
+                <div >
+                    <b>查看其他日期</b>      <input id="choose_test_date" type="date" /> <button onclick="choose_test_by_date()">选择</button>
+                </div>
                 <div>
                     <center><h2> HAF-Report {{testname}} {{today}} Summary</h2></center>
                     <br>
@@ -161,7 +180,7 @@
             <div class="jumbotron well" style="text-aligin:center">
                     <ul>
                         <li> <a></a>
-                            <div id="echart-map" style="height:{{150+all_count*70}}px;width:100%">
+                            <div id="echart-map" style="height:{{150+all_count*50}}px;width:100%">
                                 <script type="text/javascript">
                                 var width = $("width_for_echart").width();
                                 var myChart = echarts.init(document.getElementById('echart-map'));
@@ -200,7 +219,7 @@
                                             {% for key in mains.keys() %}
                                             {% set main = mains.get(key) %}
                                             {% for time_str in main.keys() %}
-                                            '{{ key }}',
+                                            '{{ key }}-{{time_str}}-{{main.get(time_str).id}}',
                                             {% endfor %}
                                             {% endfor %}
                                             ]
@@ -308,7 +327,10 @@
                                 };
 
                             myChart.on('click', function(params){
-                                showElement('all_'+params.data.name)
+                                console.log(params.name);
+                                var id = params.name.split("-");
+                                console.log(id[id.length-1]);
+                                window.location.href = "test?test_id=" + id[id.length-1];
                             });
                             myChart.setOption(option);
                             </script>
