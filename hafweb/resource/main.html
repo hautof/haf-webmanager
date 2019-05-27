@@ -263,6 +263,10 @@
                                     ]
                                 };
 
+                            myChart.on('click', function(params){
+                                console.log(params);
+                                window.location.href = "daily?date=" + params.name;
+                            });
                             myChart.setOption(option);
                         </script>
                 </div>
