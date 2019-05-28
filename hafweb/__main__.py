@@ -1,4 +1,5 @@
-from hafweb.main import main
+from hafweb.route import app
 
 
-main()
+if __name__ == "__main__":
+    app.run()

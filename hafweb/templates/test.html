@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %} HAF - index {% endblock %}
+
+{% block page_content %}
+<div class="container">
+    <div class="page-header">
+        <div>
+            {{ name}}
+        </div>
+        {{ wtf.quick_form(form) }}
+
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.name.label }} {{ form.name(id='my-text-field') }}
+            {{ form.submit() }}
+        </form>
+        <div>
+            NOW : {{ moment(current_time).format('LLLL') }}
+        </div>
+        <div>
+            That was: {{ moment(current_time).fromNow(refresh=True) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
